@@ -15,12 +15,12 @@ const styles: Record<ToastType, { wrapper: string; dot: string }> = {
     dot: "bg-[#b07d4a]",
   },
   success: {
-    wrapper: "border-[#c9a87a] text-[#f0e9dc]",
-    dot: "bg-[#c9a87a]",
+    wrapper: "border-primary text-[#f0e9dc]",
+    dot: "bg-primary",
   },
   warning: {
-    wrapper: "border-[#c9a87a]/60 text-[#c9a87a]",
-    dot: "bg-[#c9a87a]/60",
+    wrapper: "border-primary/60 text-primary",
+    dot: "bg-primary/60",
   },
   info: {
     wrapper: "border-[#2e2218] text-[#7a6248]",
@@ -55,7 +55,7 @@ export function Toast({ message, onClose, type = "error" }: ToastProps) {
 
       <button
         onClick={onClose}
-        className="ml-1 text-[#3a2c1c] hover:text-[#c9a87a] transition-colors"
+        className="ml-1 text-[#3a2c1c] hover:text-primary transition-colors"
       >
         <X size={13} />
       </button>
