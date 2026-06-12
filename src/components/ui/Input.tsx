@@ -38,7 +38,7 @@ export function Input({
             bg-[#1a1208] border border-[#2e2218]
             text-[#f0e9dc] placeholder-[#3a2c1c] text-[13px] tracking-wide
             transition-all duration-200
-            focus:outline-none focus:border-[#c9a87a] focus:bg-[#1c1408]
+            focus:outline-none focus:border-primary focus:bg-[#1c1408]
             hover:border-[#3a2c1c]
             disabled:opacity-40 disabled:cursor-not-allowed
             ${icon ? "pl-11" : ""}
