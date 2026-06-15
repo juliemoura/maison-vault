@@ -6,6 +6,7 @@ export type User = {
   email: string;
   name: string;
   surname: string;
+  password: string;
 };
 
 type UserState = {
@@ -29,27 +30,32 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
-// Criar usuário (cadastro)
+// Criar usuário
 export const createUser = createAsyncThunk(
   "user/createUser",
-  async (
-    user: Omit<User, "id">,
-    { rejectWithValue }
-  ) => {
+  async (user: Omit<User, "id">, { rejectWithValue }) => {
     try {
-      const existingUser = await api.get(
-        `/users?email=${user.email}`
-      );
+      const existingUser = await api.get(`/users?email=${user.email}`);
 
       if (existingUser.data.length > 0) {
-        return rejectWithValue(
-          "Usuário já existente na plataforma"
-        );
+        return rejectWithValue("Usuário já existente na plataforma");
       }
 
-      const response = await api.post("/users", user);
+      // Busca todos os usuários para calcular o próximo id numérico
+      const allUsers = await api.get("/users");
+      const lastId = allUsers.data.length > 0
+        ? Math.max(...allUsers.data.map((u: User) => Number(u.id)))
+        : 0;
 
-      return response.data;
+      const response = await api.post("/users", {
+        ...user,
+        id: lastId + 1, // envia id como number, json-server respeita
+      });
+
+      return {
+        ...response.data,
+        id: Number(response.data.id),
+      } as User;
     } catch {
       return rejectWithValue("Erro ao criar usuário");
     }
@@ -59,9 +65,19 @@ export const createUser = createAsyncThunk(
 // Atualizar usuário
 export const updateUser = createAsyncThunk(
   "user/updateUser",
-  async (user: User) => {
-    const response = await api.put(`/users/${user.id}`, user);
-    return response.data as User;
+  async (user: User, { rejectWithValue }) => {
+    try {
+      const response = await api.put(
+        `/users/${user.id}`,
+        user
+      );
+
+      return response.data as User;
+    } catch {
+      return rejectWithValue(
+        "Erro ao atualizar usuário"
+      );
+    }
   }
 );
 
