@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { Label } from "@/components/ui/Label";
+import { Tag } from "@/components/ui/Tag";
 import { Heart, ShoppingCart } from "lucide-react";
 
 interface BagCardProps {
@@ -12,14 +12,10 @@ interface BagCardProps {
 
 export function BagCard({ label, image, brand, title, value }: BagCardProps) {
   return (
-    <div className="w-max cursor-pointer">
+    <div className="w-full cursor-pointer">
       <div className="flex flex-col p-4 border hover:shadow-lg hover:border-primary transition-shadow duration-300">
-        <Label text={label} />
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-60 object-cover mb-5"
-        />
+        <Tag text={label} />
+        <img src={image} alt={title} className="w-full h-max object-cover" />
       </div>
 
       <div className="border-t-2 bg-primary/10 p-4">
