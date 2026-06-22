@@ -1,43 +1,22 @@
-interface BadgeProps {
-  text: "Novo" | "Exclusivo" | "Promoção";
+import React from "react";
+import { cn } from "@/lib/utils";
+
+interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  required?: boolean;
+  children: React.ReactNode;
 }
 
-const badgeStyles = {
-  Novo: {
-    bg: "bg-green-500/15",
-    border: "border-green-500/30",
-    dot: "bg-green-500",
-    text: "text-green-400",
-  },
-  Exclusivo: {
-    bg: "bg-primary/15",
-    border: "border-primary/30",
-    dot: "bg-primary",
-    text: "text-primary",
-  },
-  Promoção: {
-    bg: "bg-orange-500/15",
-    border: "border-orange-500/30",
-    dot: "bg-orange-500",
-    text: "text-orange-400",
-  },
-};
-
-export function Label({ text }: BadgeProps) {
-  const style = badgeStyles[text];
-
+export function Label({ required, className, children, ...props }: LabelProps) {
   return (
-    <div className="flex justify-end">
-      <div
-        className={`flex items-center gap-2 px-3 py-1.5 rounded-md border ${style.bg} ${style.border}`}
-      >
-        <div className={`w-2 h-2 rounded-full ${style.dot}`} />
-        <span
-          className={`text-[10px] font-medium uppercase tracking-wider ${style.text}`}
-        >
-          {text}
-        </span>
-      </div>
-    </div>
+    <label
+      className={cn(
+        "text-white text-sm font-medium flex items-center gap-1",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      {required && <span className="text-red-500">*</span>}
+    </label>
   );
 }
